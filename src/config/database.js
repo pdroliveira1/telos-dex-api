@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://Pedro:pedro2889@cluster0.sn12cee.mongodb.net/?retryWrites=true&w=majority"
+  "mongodb+srv://Pedro:pedro2889@cluster0.sn12cee.mongodb.net/telos-dex?retryWrites=true&w=majority"
 )
 
 mongoose.connection.on("connected", () => {
