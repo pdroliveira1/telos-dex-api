@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
+const {MONGO_DB_URI} = require("./env")
+
 mongoose.connect(
-  "mongodb+srv://Pedro:pedro2889@cluster0.sn12cee.mongodb.net/telos-dex?retryWrites=true&w=majority"
+  MONGO_DB_URI
 )
 
 mongoose.connection.on("connected", () => {

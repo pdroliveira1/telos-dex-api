@@ -38,7 +38,7 @@ const list = async (request, response) => {
   try {
 
     if(pokemonFilter){
-      const pokemons = await PokemonModel.find()
+      const pokemons = await PokemonModel.find(pokemonFilter)
 
       return response.status(200).json(pokemons)
     }
@@ -51,7 +51,7 @@ const list = async (request, response) => {
 
     return response.status(400).json({
       error:"@pokemons/list",
-      message: `failed to list pokemons ${err}` 
+      message: err.message || `Pokemons not foud ${err}` 
     })
     
   }
@@ -62,6 +62,10 @@ const getById = async (request, response) => {
   const { id } = request.params
 
   try {
+
+    if(!id){
+      throw new Error()
+    }
 
     const pokemon = await PokemonModel.findById(id)
 
@@ -88,6 +92,10 @@ const update = async (request, response) => {
 
   try {
 
+    if(!id){
+      throw new Error()
+    }
+
     const pokemonUpdated = await PokemonModel.findByIdAndUpdate(id,{
       name,
       attack,
@@ -112,7 +120,7 @@ const update = async (request, response) => {
 
     return response.status(400).json({
       error:"@pokemons/update",
-      message: err.message || `Pokemons not found ${id}`
+      message: err.message || `Pokemon not found ${id}`
     })
     
   }
@@ -124,19 +132,23 @@ const remove = async (request, response) => {
 
   try {
 
-    const pokemonDeleted = await PokemonModel.findByIdAndRemove(id)
+    if (!id) {
+      throw new Error()
+    }
+
+    const pokemonDeleted = await PokemonModel.findByIdAndDelete(id)
 
     if(!pokemonDeleted){
       throw new Error()
     }
 
-    return response.status(204).json(pokemonDeleted)
+    return response.status(204).send()
 
   } catch (err) {
 
     return response.status(400).json({
       error:"@pokemons/remove",
-      message: err.message || `Pokemons not found ${id}`
+      message: err.message || `Pokemon not found ${id}`
     })
     
   }
